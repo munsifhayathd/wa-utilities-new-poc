@@ -12,23 +12,15 @@ interface Step2FormProps {
   onNext: () => void;
 }
 
-function validateStep2(data: Step2FormProps['data'], setErrors: (errors: string[]) => void) {
-  const unansweredQuestions = data.questions.filter(q => !q.answer);
-  
-  if (unansweredQuestions.length > 0) {
-    setErrors(unansweredQuestions.map(q => q.id));
-    return false;
-  }
-
-  return true;
+// Modified to return errors instead of using setErrors callback
+function validateStep2(data: Step2FormProps['data']): string[] {
+  return data.questions
+    .filter(q => !q.answer)
+    .map(q => q.id);
 }
 
-export function Step2Form({ data, onUpdate }: Step2FormProps) {
+export function Step2Form({ data, onUpdate, onNext }: Step2FormProps) {
   const [errors, setErrors] = useState<string[]>([]);
-
-  // Update static properties when component renders
-  Step2Form.currentData = data;
-  Step2Form.setErrors = setErrors;
 
   const handleAnswerChange = (questionId: string, answer: 'Yes' | 'No' | 'N/A') => {
     const updatedQuestions = data.questions.map(q => 
@@ -37,6 +29,20 @@ export function Step2Form({ data, onUpdate }: Step2FormProps) {
     onUpdate({ ...data, questions: updatedQuestions });
     setErrors([]); // Clear errors when user makes a selection
   };
+
+  // Add handleSubmit method within component
+  const handleSubmit = () => {
+    const newErrors = validateStep2(data);
+    setErrors(newErrors);
+    if (newErrors.length === 0) {
+      onNext();
+      return true;
+    }
+    return false;
+  };
+
+  // Expose handleSubmit through static property
+  Step2Form.handleSubmit = handleSubmit;
 
   return (
     <div className="space-y-6">
@@ -104,9 +110,9 @@ export function Step2Form({ data, onUpdate }: Step2FormProps) {
   );
 }
 
-// Add static handleSubmit method
-Step2Form.handleSubmit = () => validateStep2(Step2Form.currentData, Step2Form.setErrors);
-
-// Add static properties to store current data and setErrors function
-Step2Form.currentData = {} as Step2FormProps['data'];
-Step2Form.setErrors = () => {}; 
+// Type declaration for the static handleSubmit
+declare module './Step2Form' {
+  namespace Step2Form {
+    let handleSubmit: () => boolean;
+  }
+} 

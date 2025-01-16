@@ -10,8 +10,8 @@ interface Step1FormProps {
   onNext: () => void;
 }
 
-// Move handleSubmit outside the component
-function validateStep1(data: TakeFiveStep1, setErrors: (errors: Partial<Record<keyof TakeFiveStep1, string>>) => void) {
+// Move validation function outside but keep it in the same file
+function validateStep1(data: TakeFiveStep1): Partial<Record<keyof TakeFiveStep1, string>> {
   const newErrors: Partial<Record<keyof TakeFiveStep1, string>> = {};
   
   if (!data.name.trim()) {
@@ -33,20 +33,11 @@ function validateStep1(data: TakeFiveStep1, setErrors: (errors: Partial<Record<k
     newErrors.notificationNo = 'Notification number is required';
   }
 
-  if (Object.keys(newErrors).length > 0) {
-    setErrors(newErrors);
-    return false;
-  }
-
-  return true;
+  return newErrors;
 }
 
-export function Step1Form({ data, onUpdate }: Step1FormProps) {
+export function Step1Form({ data, onUpdate, onNext }: Step1FormProps) {
   const [errors, setErrors] = useState<Partial<Record<keyof TakeFiveStep1, string>>>({});
-
-  // Update static properties when component renders
-  Step1Form.currentData = data;
-  Step1Form.setErrors = setErrors;
 
   const handleChange = (field: keyof TakeFiveStep1, value: string) => {
     setErrors(prev => ({ ...prev, [field]: '' }));
@@ -55,6 +46,20 @@ export function Step1Form({ data, onUpdate }: Step1FormProps) {
       [field]: value
     });
   };
+
+  // Move validation logic into a method within the component
+  const handleSubmit = () => {
+    const newErrors = validateStep1(data);
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      onNext();
+      return true;
+    }
+    return false;
+  };
+
+  // Expose handleSubmit through a ref or prop if needed
+  Step1Form.handleSubmit = handleSubmit;
 
   return (
     <div className="space-y-6">
@@ -173,9 +178,9 @@ export function Step1Form({ data, onUpdate }: Step1FormProps) {
   );
 }
 
-// Add static handleSubmit method
-Step1Form.handleSubmit = () => validateStep1(Step1Form.currentData, Step1Form.setErrors);
-
-// Add static properties to store current data and setErrors function
-Step1Form.currentData = {} as TakeFiveStep1;
-Step1Form.setErrors = () => {}; 
+// Type declaration for the static handleSubmit
+declare module './Step1Form' {
+  namespace Step1Form {
+    let handleSubmit: () => boolean;
+  }
+} 
