@@ -119,13 +119,36 @@ export interface TakeFiveData {
 } 
 
 export interface ActivityDetails {
-  // Add appropriate fields
+  activities: Array<{
+    id: string;
+    type: string;
+    description: string;
+    date: string;
+    status: string;
+    assignedTo?: string;
+  }>;
+  // Add any other required fields
 }
 
 export interface MeterDetails {
-  // Add appropriate fields
+  meters: Array<{
+    id: string;
+    number: string;
+    type: string;
+    location: string;
+    status: string;
+  }>;
+  // Add any other required fields
 }
 
 export interface AttachmentDetails {
-  // Add appropriate fields
+  attachments: Array<{
+    id: string;
+    name: string;
+    type: string;
+    size: number;
+    uploadedAt: string;
+    uploadedBy: string;
+  }>;
+  // Add any other required fields
 } 
