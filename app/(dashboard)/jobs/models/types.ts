@@ -137,10 +137,9 @@ export interface MeterDetails {
   readings: Array<{
     id: string;
     date: string;
-    value: string;
-    readBy: string;
+    value: number;
+    type: string;
   }>;
-  // Remove the previous meters array definition
 }
 
 export interface AttachmentDetails {

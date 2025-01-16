@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MeterDetails } from '@/app/(dashboard)/jobs/services/mockData';
+import { MeterDetails } from '@/app/(dashboard)/jobs/models/types';
 import { Pencil, Plus } from 'lucide-react';
 
 interface MeterProps {
