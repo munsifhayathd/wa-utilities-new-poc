@@ -1,7 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { TakeFiveData } from '@/app/(dashboard)/jobs/models/types';
+import { 
+  TakeFiveData, 
+  TakeFiveStep1, 
+  TakeFiveStep2Question, 
+  TakeFivePermit,
+  TakeFiveHazardCategory,
+  TakeFiveHazardControl
+} from '@/app/(dashboard)/jobs/models/types';
 import { StepNavigation } from './StepNavigation';
 import { Step1Form } from './Step1Form';
 import { Step2Form } from './Step2Form';
@@ -15,12 +22,23 @@ interface TakeFiveProps {
   data: TakeFiveData;
 }
 
-type StepComponent = {
-  (props: any): JSX.Element;
+type StepKey = keyof TakeFiveData['steps'];
+
+// Create a generic type for step components
+type StepComponent<T> = {
+  (props: { 
+    data: T;
+    onUpdate: (data: T) => void;
+    onNext: () => void;
+  }): JSX.Element;
   handleSubmit?: () => boolean;
 };
 
-const stepRefs: Record<string, StepComponent> = {
+type StepRefs = {
+  [K in StepKey]: StepComponent<TakeFiveData['steps'][K]>
+};
+
+const stepRefs: StepRefs = {
   step1: Step1Form,
   step2: Step2Form,
   step3: Step3Form,
@@ -43,7 +61,7 @@ export function TakeFive({ data }: TakeFiveProps) {
   };
 
   const handleNext = () => {
-    const currentStepKey = `step${currentStep}` as keyof typeof formData;
+    const currentStepKey = `step${currentStep}` as StepKey;
     setFormData(prev => ({
       ...prev,
       [currentStepKey]: {
@@ -58,7 +76,8 @@ export function TakeFive({ data }: TakeFiveProps) {
     setCurrentStep(prev => Math.max(prev - 1, 1));
   };
 
-  const CurrentStepComponent = stepRefs[`step${currentStep}` as keyof typeof stepRefs];
+  const currentStepKey = `step${currentStep}` as StepKey;
+  const CurrentStepComponent = stepRefs[currentStepKey];
 
   return (
     <div className="space-y-6">
@@ -87,11 +106,11 @@ export function TakeFive({ data }: TakeFiveProps) {
       <div className="rounded-lg border border-gray-200 bg-white p-6">
         <div className="space-y-6">
           <CurrentStepComponent
-            data={formData[`step${currentStep}`]}
-            onUpdate={(data) => 
+            data={formData[currentStepKey]}
+            onUpdate={(newData) => 
               setFormData(prev => ({ 
                 ...prev, 
-                [`step${currentStep}`]: data 
+                [currentStepKey]: newData 
               }))
             }
             onNext={handleNext}

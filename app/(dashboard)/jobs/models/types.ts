@@ -117,3 +117,15 @@ export interface TakeFiveData {
     };
   };
 } 
+
+export interface ActivityDetails {
+  // Add appropriate fields
+}
+
+export interface MeterDetails {
+  // Add appropriate fields
+}
+
+export interface AttachmentDetails {
+  // Add appropriate fields
+} 

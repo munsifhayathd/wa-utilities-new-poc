@@ -8,9 +8,10 @@ interface Step3FormProps {
     isComplete: boolean;
   };
   onUpdate: (data: Step3FormProps['data']) => void;
+  onNext: () => void;
 }
 
-export function Step3Form({ data, onUpdate }: Step3FormProps) {
+export function Step3Form({ data, onUpdate, onNext }: Step3FormProps) {
   const handlePermitChange = (permitId: string, obtained: boolean) => {
     const updatedPermits = data.permits.map(permit =>
       permit.id === permitId ? { ...permit, obtained } : permit

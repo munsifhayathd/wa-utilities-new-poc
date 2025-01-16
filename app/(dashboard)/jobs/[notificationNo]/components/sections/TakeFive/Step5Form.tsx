@@ -1,19 +1,17 @@
 'use client';
 
+import { TakeFiveHazardControl } from '@/app/(dashboard)/jobs/models/types';
+
 interface Step5FormProps {
   data: {
-    hazardControls: Array<{
-      id: string;
-      hazard: string;
-      description: string;
-      implemented: boolean;
-    }>;
+    hazardControls: TakeFiveHazardControl[];
     isComplete: boolean;
   };
   onUpdate: (data: Step5FormProps['data']) => void;
+  onNext: () => void;
 }
 
-export function Step5Form({ data, onUpdate }: Step5FormProps) {
+export function Step5Form({ data, onUpdate, onNext }: Step5FormProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-base font-semibold text-gray-900">
