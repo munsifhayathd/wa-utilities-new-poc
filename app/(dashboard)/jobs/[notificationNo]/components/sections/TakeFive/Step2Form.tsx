@@ -47,7 +47,7 @@ export function Step2Form({ data, onUpdate, onNext }: Step2FormProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-base font-semibold text-gray-900">
-        REVIEW - Stop and review the &quot;Take 5&quot; if any conditions change
+        REVIEW - Stop and review the "Take 5" if any conditions change
       </h2>
 
       <div className="space-y-4">
