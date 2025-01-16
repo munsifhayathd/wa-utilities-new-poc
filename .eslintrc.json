@@ -10,7 +10,12 @@
     "quotes": ["warn", "single"],
     "jsx-quotes": ["warn", "prefer-double"],
     "indent": ["warn", 2],
-    "max-len": ["warn", { "code": 120 }],
+    "max-len": ["warn", { 
+      "code": 120,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreComments": true
+    }],
     "semi": ["warn", "always"],
     "react/no-unescaped-entities": "off"
   }

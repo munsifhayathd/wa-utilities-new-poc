@@ -1,14 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  TakeFiveData, 
-  TakeFiveStep1, 
-  TakeFiveStep2Question, 
-  TakeFivePermit,
-  TakeFiveHazardCategory,
-  TakeFiveHazardControl
-} from '@/app/(dashboard)/jobs/models/types';
+import { TakeFiveData } from '@/app/(dashboard)/jobs/models/types';
 import { StepNavigation } from './StepNavigation';
 import { Step1Form } from './Step1Form';
 import { Step2Form } from './Step2Form';
@@ -51,7 +44,7 @@ export function TakeFive({ data }: TakeFiveProps) {
   const [formData, setFormData] = useState(data.steps);
 
   const completedSteps = Object.entries(formData)
-    .filter(([_, stepData]) => 'isComplete' in stepData && stepData.isComplete)
+    .filter(([, stepData]) => 'isComplete' in stepData && stepData.isComplete)
     .map(([step]) => parseInt(step.replace('step', '')));
 
   const handleStepClick = (step: number) => {

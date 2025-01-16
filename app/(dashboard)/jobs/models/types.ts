@@ -131,14 +131,16 @@ export interface ActivityDetails {
 }
 
 export interface MeterDetails {
-  meters: Array<{
+  meterNumber: string;
+  type: string;
+  location: string;
+  readings: Array<{
     id: string;
-    number: string;
-    type: string;
-    location: string;
-    status: string;
+    date: string;
+    value: string;
+    readBy: string;
   }>;
-  // Add any other required fields
+  // Remove the previous meters array definition
 }
 
 export interface AttachmentDetails {
