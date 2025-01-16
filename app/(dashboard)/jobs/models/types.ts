@@ -143,13 +143,12 @@ export interface MeterDetails {
 }
 
 export interface AttachmentDetails {
-  attachments: Array<{
+  files: Array<{
     id: string;
     name: string;
     type: string;
     size: number;
     uploadedAt: string;
-    uploadedBy: string;
+    url: string;
   }>;
-  // Add any other required fields
 } 

@@ -18,17 +18,21 @@ interface TakeFiveProps {
 type StepKey = keyof TakeFiveData['steps'];
 
 // Create a generic type for step components
-type StepComponent<T> = {
-  (props: { 
-    data: T;
-    onUpdate: (data: T) => void;
-    onNext: () => void;
-  }): JSX.Element;
+type StepComponent<T> = React.FC<{
+  data: T;
+  onUpdate: (data: T) => void;
+  onNext: () => void;
+}> & {
   handleSubmit?: () => boolean;
 };
 
+// Update the stepRefs type to be more specific
 type StepRefs = {
-  [K in StepKey]: StepComponent<TakeFiveData['steps'][K]>
+  step1: StepComponent<TakeFiveData['steps']['step1']>;
+  step2: StepComponent<TakeFiveData['steps']['step2']>;
+  step3: StepComponent<TakeFiveData['steps']['step3']>;
+  step4: StepComponent<TakeFiveData['steps']['step4']>;
+  step5: StepComponent<TakeFiveData['steps']['step5']>;
 };
 
 const stepRefs: StepRefs = {
