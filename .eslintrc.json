@@ -11,6 +11,7 @@
     "jsx-quotes": ["warn", "prefer-double"],
     "indent": ["warn", 2],
     "max-len": ["warn", { "code": 120 }],
-    "semi": ["warn", "always"]
+    "semi": ["warn", "always"],
+    "react/no-unescaped-entities": "off"
   }
 }

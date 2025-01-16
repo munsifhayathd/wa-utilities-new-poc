@@ -64,7 +64,7 @@ export function Step1Form({ data, onUpdate, onNext }: Step1FormProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-base font-semibold text-gray-900">
-        STOP - "Take 5" minutes to review the task
+        STOP - &quot;Take 5&quot; minutes to review the task
       </h2>
 
       <div className="grid grid-cols-2 gap-x-8 gap-y-6">
